@@ -25,7 +25,7 @@ activitydf[,2] <- as.Date(activitydf[,2])
 steps <- aggregate(steps ~ date, activitydf, sum)
 
 # Display a histogram of steps per day.
-hist(steps[,2], main="Total Steps per Day")
+hist(steps[,2], main="Total Steps per Day", xlab="Steps")
 
 # Compute the mean and median steps per day.
 stepsmean <- mean(steps[,2])
@@ -68,7 +68,7 @@ The total number of NAs within the steps column of the activity dataset is `r nu
 
 ```{r, echo=TRUE}
 # Plot the histogram of total steps per day using the dataset with NAs filled in.
-hist(steps2[,2], main="Total Steps per Day (NAs set to 0)")
+hist(steps2[,2], main="Total Steps per Day (NAs set to 0)", xlab="Steps")
 
 # Calculate and report the mean and median steps per day.
 stepsmean2 <- mean(steps2[,2])
@@ -95,8 +95,7 @@ wkendsteps <- aggregate(steps ~ interval, wkendsactivity, mean)
 
 # Plot the two time series in two windows of the same plot.
 par(mfrow=c(2,1), mar = numeric(4), oma=c(4,4,3,0.5), mgp=c(2,0.6,0))
-#layout(matrix(c(1,2),2, byrow=TRUE))
-plot(wkdaysteps$interval, wkdaysteps$steps, type="l", col="blue", axes=FALSE)#, main="Average Steps per Interval (top: across weekdays; bottom: across weekends")
+plot(wkdaysteps$interval, wkdaysteps$steps, type="l", col="blue", axes=FALSE)
 axis(2L)
 box()
 plot(wkendsteps$interval, wkendsteps$steps, type="l", col="blue")
