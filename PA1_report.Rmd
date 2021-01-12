@@ -25,7 +25,7 @@ activitydf[,2] <- as.Date(activitydf[,2])
 steps <- aggregate(steps ~ date, activitydf, sum)
 
 # Display a histogram of steps per day.
-hist(steps[,2])
+hist(steps[,2], main="Total Steps per Day")
 
 # Compute the mean and median steps per day.
 stepsmean <- mean(steps[,2])
@@ -68,7 +68,7 @@ The total number of NAs within the steps column of the activity dataset is `r nu
 
 ```{r, echo=TRUE}
 # Plot the histogram of total steps per day using the dataset with NAs filled in.
-hist(steps2[,2])
+hist(steps2[,2], main="Total Steps per Day (NAs set to 0)")
 
 # Calculate and report the mean and median steps per day.
 stepsmean2 <- mean(steps2[,2])
@@ -94,10 +94,24 @@ wkdaysteps <- aggregate(steps ~ interval, wkdaysactivity, mean)
 wkendsteps <- aggregate(steps ~ interval, wkendsactivity, mean)
 
 # Plot the two time series in two windows of the same plot.
-#par(mfrow=c(2,1))
-layout(matrix(c(1,2),2, byrow=TRUE))
-plot(wkdaysteps$interval, wkdaysteps$steps, type="l", col="blue", ylab="Steps", xlab="Interval", main="Average Steps per Interval (across weekdays only)")
-plot(wkendsteps$interval, wkendsteps$steps, type="l", col="blue", ylab="Steps", xlab="Interval", main="Average Steps per Interval (across weekends only)")
+par(mfrow=c(2,1), mar = numeric(4), oma=c(4,4,3,0.5), mgp=c(2,0.6,0))
+#layout(matrix(c(1,2),2, byrow=TRUE))
+plot(wkdaysteps$interval, wkdaysteps$steps, type="l", col="blue", axes=FALSE)#, main="Average Steps per Interval (top: across weekdays; bottom: across weekends")
+axis(2L)
+box()
+plot(wkendsteps$interval, wkendsteps$steps, type="l", col="blue")
+mtext("Interval", side=1, outer=TRUE, line=2.2)
+mtext("Steps", side=2, outer=TRUE, line=2.2)
+mtext("Average Steps per Interval (top: across weekdays; bottom: across weekends)", outer=TRUE)
 
+# Compute the mean and median of each time series.
+wkdaymean <- mean(wkdaysteps$steps)
+wkdaymedian <- median(wkdaysteps$steps)
+wkendmean <- mean(wkendsteps$steps)
+wkendmedian <- median(wkendsteps$steps)
+totalwkday <- sum(wkdaysteps$steps)
+totalwkend <- sum(wkendsteps$steps)
 ```
+
+The average steps taken on weekdays is shown on the top of the last graph and the average steps taken on weekends is show on the bottom. The mean and the median of average steps taken on weekdays are `r wkdaymean` and `r wkdaymedian`, respectively. The mean and median of average steps taken on weekends are `r wkendmean` and `r wkendmedian`, respectively. The average steps taken on the weekends is greater than the average steps taken on weekdays.
 
